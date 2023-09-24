@@ -21,8 +21,9 @@ public class HotelManagementSystem extends JFrame implements ActionListener{
         
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/first.jpg"));
         JLabel image = new JLabel(i1);
-        add(image);
         image.setBounds(0, 0, 1366, 565);
+        add(image);
+        
         
         JLabel text = new JLabel("Hotel Mmgt System");
         text.setBounds(20, 430, 800, 100);
