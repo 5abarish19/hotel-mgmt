@@ -4,13 +4,14 @@
  */
 package hotel.management.system;
 import java.awt.*;
+import java.awt.event.*;
 //import java.awt.Font;
 import javax.swing.*;
 /**
  *
  * @author Sabarish
  */
-public class HotelManagementSystem extends JFrame{
+public class HotelManagementSystem extends JFrame implements ActionListener{
 
     HotelManagementSystem()
     {
@@ -33,6 +34,7 @@ public class HotelManagementSystem extends JFrame{
         button.setBounds(1100,430, 200, 70);
         button.setBackground(Color.red);
         button.setForeground(Color.WHITE);
+        button.addActionListener(this);
         button.setFont(new Font("serif", Font.BOLD,38));
         image.add(button);
         
@@ -57,6 +59,12 @@ public class HotelManagementSystem extends JFrame{
             }
         }
         
+    }
+    
+    public void actionPerformed(ActionEvent ae)
+    {
+        setVisible(false);
+        new Login();
     }
     /**
      * @param args the command line arguments
