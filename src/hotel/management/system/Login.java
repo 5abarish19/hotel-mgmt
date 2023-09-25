@@ -5,12 +5,16 @@
 package hotel.management.system;
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashSet;
+import java.awt.event.*;
+import java.sql.*;
 /**
  *
  * @author Sabarish
  */
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener {
+    
+    JButton button1, button;
+    JTextField usertf,pwtf;
     
     Login()
     {
@@ -21,7 +25,7 @@ public class Login extends JFrame {
         user.setBounds(40,20,100,20);
         add(user);
         
-        JTextField usertf = new JTextField();
+        usertf = new JTextField();
         usertf.setBounds(150,20, 100,20);
         add(usertf);
         
@@ -29,23 +33,25 @@ public class Login extends JFrame {
         pw.setBounds(40,45,100,20);
         add(pw);
         
-        JTextField pwtf = new JTextField();
+        pwtf = new JTextField();
         pwtf.setBounds(150,45, 100,20);
         add(pwtf);
         
         
-        JButton button = new JButton("Login");
+        button = new JButton("Login");
         button.setBounds(40,70, 100, 30);
         button.setBackground(Color.red);
         button.setForeground(Color.WHITE);
         button.setFont(new Font("serif", Font.BOLD,17));
+        button.addActionListener(this);
         add(button);
         
-        JButton button1 = new JButton("Cancel");
+        button1 = new JButton("Cancel");
         button1.setBounds(150,70, 100, 30);
         button1.setBackground(Color.red);
         button1.setForeground(Color.WHITE);
         button1.setFont(new Font("serif", Font.BOLD,17));
+        button1.addActionListener(this);
         add(button1);
         
         
@@ -60,6 +66,34 @@ public class Login extends JFrame {
         setSize(700,300);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+    
+ 
+    public void actionPerformed(ActionEvent ae){
+        if(ae.getSource()==button){
+            String u = usertf.getText();
+            String p = pwtf.getText();
+            
+            try{
+                Conn c = new Conn();
+                String query = "select * from login where username = '"+u+"' and password = '"+p+"'";
+                ResultSet rs = c.s.executeQuery(query);
+                
+                if(rs.next()){
+                    setVisible(false);
+                    new Dashboard();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Invalid username or pw!!!");
+                    setVisible(false);
+                }
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            
+        }else if(ae.getSource()==button1){
+            setVisible(false);
+        }
     }
     
     public static void main(String[] args)
