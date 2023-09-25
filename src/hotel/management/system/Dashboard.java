@@ -2,8 +2,11 @@
 package hotel.management.system;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+//import java.util.EventListener;
 
-public class Dashboard extends JFrame{
+public class Dashboard extends JFrame implements ActionListener{
     Dashboard()
     {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -35,6 +38,7 @@ public class Dashboard extends JFrame{
         mb.add(hotel);
         
         JMenuItem reception = new JMenuItem("Reception");
+        reception.addActionListener(this);
         hotel.add(reception);
         
         JMenu admin = new JMenu("Admin");
@@ -42,15 +46,25 @@ public class Dashboard extends JFrame{
         mb.add(admin);
         
         JMenuItem employee = new JMenuItem("Add Employee");
+        employee.addActionListener(this);
         admin.add(employee);
         
         JMenuItem room = new JMenuItem("Add Rooms");
+        room.addActionListener(this);
         admin.add(room);
         
         JMenuItem driver = new JMenuItem("Add drivers");
         admin.add(driver);
         
         setVisible(true);
+    }
+    
+    public void actionPerformed(ActionEvent ae)
+    {
+        if(ae.getActionCommand().equals("Add Employee"))
+            new AddEmployee();
+        if(ae.getActionCommand().equals("Add Rooms"))
+            new AddRooms();
     }
     
     public static void main(String[] args)
