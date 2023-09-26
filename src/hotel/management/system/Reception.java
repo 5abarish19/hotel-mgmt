@@ -55,6 +55,7 @@ public class Reception extends JFrame implements ActionListener{
         checkout.setBounds(10,270,200,30);
         checkout.setBackground(Color.black);
         checkout.setForeground(Color.white);
+        checkout.addActionListener(this);
         add(checkout);
         
         JButton update = new JButton("Update Status");
@@ -89,6 +90,7 @@ public class Reception extends JFrame implements ActionListener{
         logout.setBounds(10,470,200,30);
         logout.setBackground(Color.black);
         logout.setForeground(Color.white);
+        logout.addActionListener(this);
         add(logout);
         
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/fourth.jpg"));
@@ -152,6 +154,16 @@ public class Reception extends JFrame implements ActionListener{
         {
             setVisible(false);
             new PickupService();
+        }
+        else if(ae.getActionCommand().equals("Checkout"))
+        {
+            setVisible(false);
+            new Checkout();
+        }
+        else if(ae.getActionCommand().equals("Logout"))
+        {
+            setVisible(false);
+            System.exit(0);
         }
         
         
