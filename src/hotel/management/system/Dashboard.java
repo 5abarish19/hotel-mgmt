@@ -64,10 +64,12 @@ public class Dashboard extends JFrame implements ActionListener{
     {
         if(ae.getActionCommand().equals("Add Employee"))
             new AddEmployee();
-        if(ae.getActionCommand().equals("Add Rooms"))
+        else if(ae.getActionCommand().equals("Add Rooms"))
             new AddRooms();
-        if(ae.getActionCommand().equals("Add Driver"))
+        else if(ae.getActionCommand().equals("Add Driver"))
             new AddDriver();
+        else if(ae.getActionCommand().equals("Reception"))
+            new Reception();
     }
     
     public static void main(String[] args)
