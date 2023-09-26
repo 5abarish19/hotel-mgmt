@@ -93,7 +93,7 @@ public class AddCustomer extends JFrame implements ActionListener{
         
         try{
             Conn c = new Conn();
-            String query = "select * from room";
+            String query = "select * from room where available = 'Available'";
             ResultSet rs = c.s.executeQuery(query);
             while(rs.next())
             {
