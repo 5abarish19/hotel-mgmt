@@ -34,18 +34,21 @@ public class Reception extends JFrame implements ActionListener{
         allEmployees.setBounds(10,150,200,30);
         allEmployees.setBackground(Color.black);
         allEmployees.setForeground(Color.white);
+        allEmployees.addActionListener(this);
         add(allEmployees);
         
         JButton custInfo = new JButton("Customer Info");
         custInfo.setBounds(10,190,200,30);
         custInfo.setBackground(Color.black);
         custInfo.setForeground(Color.white);
+        custInfo.addActionListener(this);
         add(custInfo);
         
         JButton managerInfo = new JButton("Manager Info");
         managerInfo.setBounds(10,230,200,30);
         managerInfo.setBackground(Color.black);
         managerInfo.setForeground(Color.white);
+        managerInfo.addActionListener(this);
         add(managerInfo);
         
         JButton checkout = new JButton("Checkout");
@@ -76,6 +79,7 @@ public class Reception extends JFrame implements ActionListener{
         searchRoom.setBounds(10,430,200,30);
         searchRoom.setBackground(Color.black);
         searchRoom.setForeground(Color.white);
+        searchRoom.addActionListener(this);
         add(searchRoom);
         
         JButton logout = new JButton("Logout");
@@ -111,6 +115,28 @@ public class Reception extends JFrame implements ActionListener{
             setVisible(false);
             new Department();
         }
+        else if(ae.getActionCommand().equals("All Employees"))
+        {
+            setVisible(false);
+            new EmployeeInfo();
+        }
+        else if(ae.getActionCommand().equals("Manager Info"))
+        {
+            setVisible(false);
+            new ManagerInfo();
+        }
+        else if(ae.getActionCommand().equals("Customer Info"))
+        {
+            setVisible(false);
+            new CustomerInfo();
+        }
+        else if(ae.getActionCommand().equals("Search Room"))
+        {
+            setVisible(false);
+            new SearchRoom();
+        }
+        
+        
             
     }
     
