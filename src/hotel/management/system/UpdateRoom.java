@@ -7,20 +7,21 @@ import javax.swing.*;
 import java.sql.*;
 import java.awt.event.*;
 
-public class UpdateCheck extends JFrame implements ActionListener{
+public class UpdateRoom extends JFrame implements ActionListener{
     
     Choice customer;
-    JTextField tfroom,tfname,tfcheckin,tfpaid,tfpending;
+    JTextField tfroom,tfavailable,tfclean,tfpaid,tfpending;
     JButton check,update,back;
+    JLabel tfroom1;
     
-    UpdateCheck()
+    UpdateRoom()
     {
         setLayout(null);
         getContentPane().setBackground(Color.white);
         
-        JLabel text = new JLabel("Update Status");
-        text.setFont(new Font("Tahoma",Font.PLAIN,20));
-        text.setBounds(90, 20, 200, 20);
+        JLabel text = new JLabel("Update Room Status");
+        text.setFont(new Font("Tahoma",Font.PLAIN,25));
+        text.setBounds(30, 20, 250, 30);
         add(text);
         
         JLabel lblid = new JLabel("Customer id");
@@ -48,73 +49,62 @@ public class UpdateCheck extends JFrame implements ActionListener{
         lblroom.setBounds(30, 120, 100, 20);
         add(lblroom);
         
-        tfroom = new JTextField();
-        tfroom.setBounds(200,120,150,25);
-        add(tfroom);
+//        tfroom = new JTextField();
+//        tfroom.setBounds(200,120,150,25);
+//        add(tfroom);
+
+        tfroom1 = new JLabel();
+        tfroom1.setBounds(200,120,150,25);
+        add(tfroom1);
         
-        JLabel lblname = new JLabel("Name");
+        JLabel lblavailable = new JLabel("Availability");
         //text.setFont(new Font("Tahoma",Font.PLAIN,20));
-        lblname.setBounds(30, 160, 100, 20);
-        add(lblname);
+        lblavailable.setBounds(30, 160, 100, 20);
+        add(lblavailable);
         
-        tfname = new JTextField();
-        tfname.setBounds(200,160,150,25);
-        add(tfname);
+        tfavailable = new JTextField();
+        tfavailable.setBounds(200,160,150,25);
+        add(tfavailable);
         
-        JLabel lblcheckin = new JLabel("Check-In");
+        JLabel lblclean = new JLabel("Cleaning Status");
         //text.setFont(new Font("Tahoma",Font.PLAIN,20));
-        lblcheckin.setBounds(30, 200, 100, 20);
-        add(lblcheckin);
+        lblclean.setBounds(30, 200, 100, 20);
+        add(lblclean);
         
-        tfcheckin = new JTextField();
-        tfcheckin.setBounds(200,200,150,25);
-        add(tfcheckin);
+        tfclean = new JTextField();
+        tfclean.setBounds(200,200,150,25);
+        add(tfclean);
         
-        JLabel lblpaid = new JLabel("Amount Paid");
-        //text.setFont(new Font("Tahoma",Font.PLAIN,20));
-        lblpaid.setBounds(30, 240, 100, 20);
-        add(lblpaid);
-        
-        tfpaid = new JTextField();
-        tfpaid.setBounds(200,240,150,25);
-        add(tfpaid);
-        
-        JLabel lblpending = new JLabel("Amount Pending");
-        //text.setFont(new Font("Tahoma",Font.PLAIN,20));
-        lblpending.setBounds(30, 280, 100, 20);
-        add(lblpending);
-        
-        tfpending = new JTextField();
-        tfpending.setBounds(200,280,150,25);
-        add(tfpending);
         
         check = new JButton("Check");
         check.setForeground(Color.white);
         check.setBackground(Color.black);
-        check.setBounds(30,320,75,25);
+        check.setBounds(30,300,75,25);
         check.addActionListener(this);
         add(check);
         
         update = new JButton("Update");
         update.setForeground(Color.white);
         update.setBackground(Color.black);
-        update.setBounds(135,320,75,25);
+        update.setBounds(135,300,75,25);
         update.addActionListener(this);
         add(update);
         
         back = new JButton("Back");
         back.setForeground(Color.white);
         back.setBackground(Color.black);
-        back.setBounds(230,320,75,25);
+        back.setBounds(230,300,75,25);
         back.addActionListener(this);
         add(back);
         
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/nine.jpg"));
-        JLabel image = new JLabel(i1);
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/seventh.jpg"));
+        Image i2 = i1.getImage().getScaledInstance(500, 300, Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
         image.setBounds(400,50,500,300);
         add(image);
         
-        setSize(980,500);
+        setSize(980,450);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -129,20 +119,16 @@ public class UpdateCheck extends JFrame implements ActionListener{
                 String query = "select * from customer where number = '"+id+"'";
                 ResultSet rs = c.s.executeQuery(query);
                 while(rs.next()){
-                    tfroom.setText(rs.getString("room"));
-                    tfname.setText(rs.getString("name"));
-                    tfcheckin.setText(rs.getString("checkin"));
-                    tfpaid.setText(rs.getString("deposit"));
-                    tfpending.setText(rs.getString("deposit"));   
+                    tfroom1.setText(rs.getString("room"));
+                    tfavailable.setText(rs.getString("name"));
+                    tfclean.setText(rs.getString("checkin"));
+                       
                 }
-                ResultSet rs2 = c.s.executeQuery("select * from room where roomno = '"+tfroom.getText()+"'");
+                ResultSet rs2 = c.s.executeQuery("select * from room where roomno = '"+tfroom1.getText()+"'");
                 while(rs2.next())
                 {
-                    String temp = rs2.getString("price");
-                    int temp_ = Integer.parseInt(temp);
-                    int temp__ = Integer.parseInt(tfpending.getText());
-                    temp_ -=temp__;
-                    tfpending.setText(Integer.toString(temp_));
+                    tfavailable.setText(rs2.getString("available"));
+                    tfclean.setText(rs2.getString("cleaning"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -150,15 +136,15 @@ public class UpdateCheck extends JFrame implements ActionListener{
             }
             
         }else if(ae.getSource()==update){
-            String number = customer.getSelectedItem();
-            String room = tfroom.getText();
-            String name = tfname.getText();
-            String checkin = tfcheckin.getText();
-            String deposit = tfpaid.getText();
+            //String number = customer.getSelectedItem();
+            String room = tfroom1.getText();
+            String available = tfavailable.getText();
+            String clean = tfclean.getText();
+        
             
             try{
                 Conn c = new Conn();
-                c.s.executeUpdate("update customer set room = '"+room+"',name = '"+name+"', checkin = '"+checkin+"', deposit = '"+deposit+"' where number = '"+number+"'");
+                c.s.executeUpdate("update room set available = '"+available+"', cleaning = '"+clean+"' where roomno = '"+room+"'");
                 JOptionPane.showMessageDialog(null, "Data Updated!");
                 setVisible(false);
             new Reception();
@@ -175,6 +161,6 @@ public class UpdateCheck extends JFrame implements ActionListener{
     
     public static void main(String[] args)
     {
-        new UpdateCheck();
+        new UpdateRoom();
     }
 }
