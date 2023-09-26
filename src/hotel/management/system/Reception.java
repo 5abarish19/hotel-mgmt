@@ -2,8 +2,9 @@ package hotel.management.system;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class Reception extends JFrame{
+public class Reception extends JFrame implements ActionListener{
     Reception(){
         setLayout(null);
         getContentPane().setBackground(Color.white);
@@ -12,6 +13,7 @@ public class Reception extends JFrame{
         newCustomer.setBounds(10,30,200,30);
         newCustomer.setBackground(Color.black);
         newCustomer.setForeground(Color.white);
+        newCustomer.addActionListener(this);
         add(newCustomer);
         
         JButton rooms = new JButton("Rooms");
@@ -88,6 +90,12 @@ public class Reception extends JFrame{
         setSize(800,570);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+    
+    public void actionPerformed(ActionEvent ae)
+    {
+        if(ae.getActionCommand().equals("New Customer Form"))
+            new AddCustomer();
     }
     
     public static void main(String[] args){

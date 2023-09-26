@@ -2,16 +2,18 @@ package hotel.management.system;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.sql.*;
 import java.util.Date;
 
-public class AddCustomer extends JFrame{
+public class AddCustomer extends JFrame implements ActionListener{
     
     JComboBox cbid;
-    JTextField tfnumber,tfname,tfcountry;
+    JTextField tfnumber,tfname,tfcountry,tfdeposit;
     JRadioButton rbmale,rbfemale;
     Choice croom;
     JLabel lblcheckin;
+    JButton add,cancel;
     
     AddCustomer()
     {
@@ -117,13 +119,85 @@ public class AddCustomer extends JFrame{
         lblcheckin.setFont(new Font("Raleway",Font.PLAIN,16));
         add(lblcheckin);
         
+        JLabel lbldeposit = new JLabel("Deposit");
+        lbldeposit.setBounds(35, 360, 100, 20);
+        lbldeposit.setFont(new Font("Raleway",Font.PLAIN,20));
+        add(lbldeposit);
+        
+        tfdeposit = new JTextField();
+        tfdeposit.setBounds(200,360,150,25);
+        add(tfdeposit);
+        
+        add = new JButton("Add Customer");
+        add.setBounds(35,400,130, 30);
+        add.setBackground(Color.black);
+        add.setForeground(Color.WHITE);
+        add.addActionListener(this);
+        //submit.setFont(new Font("serif", Font.BOLD,38));
+        add(add);
+        
+        cancel = new JButton("Cancel");
+        cancel.setBounds(200,400,130, 30);
+        cancel.setBackground(Color.black);
+        cancel.setForeground(Color.WHITE);
+        cancel.addActionListener(this);
+        //submit.setFont(new Font("serif", Font.BOLD,38));
+        add(cancel);
+        
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/fifth.png"));
+        Image i2 = i1.getImage().getScaledInstance(300, 400,Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel image = new JLabel(i3);
+        image.setBounds(400, 50, 300, 400);
+        add(image);
+        
         
         setSize(800,550);
         setLocationRelativeTo(null);
         setVisible(true);
     }
     
+    public void actionPerformed(ActionEvent ae)
+    {
+        if(ae.getSource()==add){
+            String id = (String)cbid.getSelectedItem();
+            String number = tfnumber.getText();
+            String name = tfname.getText();
+            String gender = null;
+            if(rbmale.isSelected())
+                gender = "Male";
+            else if(rbfemale.isSelected())
+                gender = "Female";
+            String country = tfcountry.getText();
+            String room = croom.getSelectedItem();
+            String time = lblcheckin.getText();
+            String deposit = tfdeposit.getText();
+            
+            try{
+            Conn c = new Conn();
+            String query = "insert into customer values('"+id+"','"+number+"','"+name+"','"+gender+"','"+country+"','"+room+"','"+time+"','"+deposit+"')";
+            String query2 = "update room set available = 'Occupied' where roomno = '"+room+"'";
+            c.s.executeUpdate(query);
+            c.s.executeUpdate(query2);
+            
+            JOptionPane.showMessageDialog(null,"Customer added!!");
+            setVisible(false);
+            new Reception();
+            }catch(Exception e){
+            e.printStackTrace();
+            }
+            
+        }
+        else if(ae.getSource()==cancel)
+        {
+            setVisible(false);
+            new Reception();
+        }
+    }
+    
     public static void main(String[] args){
         new AddCustomer();
     }
+
+    
 }
